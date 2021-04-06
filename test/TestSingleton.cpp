@@ -3,7 +3,7 @@
   *FileName:
   *Author:chenhui.shi
   *Version:
-  *Date:2021/4/2
+  *Date:2021/4/6
   *Description:  //用于主要说明此程序文件完成的主要功能
                 //与其他模块或函数的接口、输出值、取值范围、
                 //含义及参数间的控制、顺序、独立及依赖关系
@@ -17,11 +17,26 @@
        Modification:
      2.…………
 **********************************************************************************/
-
 #include "singleton.h"
 
+class singletonSon : public singleton<singletonSon>{
+public:
+
+    virtual ~singletonSon(){
+        cout << "singletonSon desconstruct" << endl;
+    }
+    void printa(){
+        cout << "this is singletonSon,a =" << a << endl;
+    }
+
+private:
+    int a = 0;
+};
 int main(){
-   auto instance =  singleton<int>::GetInstance();
-   *instance = 777;
-   std::cout << "i am a instance:" << *instance << std::endl;
+
+    shared_ptr<singletonSon> instance =  singleton<singletonSon>::GetInstance();
+    //shared_ptr<int> instance1 =  singleton<int>::GetInstance();
+    //instance->a = 777;
+    //std::cout << "i am a instance:" << *instance << "instance use count:" << instance.use_count()<< std::endl;
+    instance->printa();
 }
