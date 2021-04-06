@@ -1,2 +1,2 @@
 # common-wheels-with-cpulspuls
-desaing patterns,wheels,c++11,cmake
+design patterns & wheels ralized with c++11 & cmake
