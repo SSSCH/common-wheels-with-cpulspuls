@@ -17,5 +17,6 @@ if(UTIL_FOUND)
 endif(UTIL_FOUND)
 
 add_executable(testwheel ${src_list})
-target_link_libraries(designPattern)
-target_link_libraries(util)
+
+target_link_libraries(testwheel designPattern)
+target_link_libraries(testwheel util)

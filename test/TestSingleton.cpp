@@ -18,7 +18,12 @@
      2.…………
 **********************************************************************************/
 #include "singleton.h"
+#include "threadPoll.h"
+#include <thread>
+#include <atomic>
+#include <zconf.h>
 
+/** test singleton**/
 class singletonSon : public singleton<singletonSon>{
 public:
 
@@ -32,11 +37,41 @@ public:
 private:
     int a = 0;
 };
-int main(){
 
+/**test threadpoll**/
+ThreadPoll tp(40);
+atomic_int threadPollTestNum;
+void runInThread(){
+    for (int i = 0; i < 30; ++i) {
+        tp.AddTask([&](){++threadPollTestNum;});
+    }
+}
+
+
+int main(){
+    /** test singleton**/
     shared_ptr<singletonSon> instance =  singleton<singletonSon>::GetInstance();
     //shared_ptr<int> instance1 =  singleton<int>::GetInstance();
     //instance->a = 777;
     //std::cout << "i am a instance:" << *instance << "instance use count:" << instance.use_count()<< std::endl;
     instance->printa();
+
+    /**test threadpoll**/
+    threadPollTestNum = 0;
+    tp.start();
+    std::thread th1(runInThread);
+    std::thread th2(runInThread);
+    std::thread th3(runInThread);
+    std::thread th4(runInThread);
+    th1.join();
+    th2.join();
+    th3.join();
+    th4.join();
+    sleep(5);
+    cout << "threadPollTestNum:" << threadPollTestNum << endl;
+    tp.stop();
+
+    while (1){
+        sleep(1);
+    };
 }
