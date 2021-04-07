@@ -1,8 +1,6 @@
 MESSAGE(STATUS "findDesignPattern.cmake in")
 
-find_path(DESIGNPATTERN_INCLUDES
-        NAMES singleton.h
-        PATH ${PROJECT_SOURCE_DIR}/DesignPattern)
+find_path(DESIGNPATTERN_INCLUDES singleton.h ../../DesignPattern)
 
 find_library(DESIGNPATTERN_LIBRARIES NAMES designPattern PATH ${PROJECT_BINARY_DIR}/lib)
 
