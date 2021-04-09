@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 #aux_source_directory(./ lib_list)
 message(STATUS "goto designPattern")
-set(lib_list singleton.h)
+set(lib_list singleton.h
+             builder.cpp
+             builder.h)
 
 
 

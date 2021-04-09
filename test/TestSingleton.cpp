@@ -19,6 +19,8 @@
 **********************************************************************************/
 #include "singleton.h"
 #include "threadPoll.h"
+#include "builder.h"
+
 #include <thread>
 #include <atomic>
 #include <zconf.h>
@@ -42,7 +44,7 @@ private:
 ThreadPoll tp(40);
 atomic_int threadPollTestNum;
 void runInThread(){
-    for (int i = 0; i < 30; ++i) {
+    for (int i = 0; i < 20; ++i) {
         tp.AddTask([&](){++threadPollTestNum;});
     }
 }
@@ -57,7 +59,7 @@ int main(){
     instance->printa();
 
     /**test threadpoll**/
-    threadPollTestNum = 0;
+/*    threadPollTestNum = 0;
     tp.start();
     std::thread th1(runInThread);
     std::thread th2(runInThread);
@@ -67,11 +69,21 @@ int main(){
     th2.join();
     th3.join();
     th4.join();
-    sleep(5);
+    sleep(3);
     cout << "threadPollTestNum:" << threadPollTestNum << endl;
-    tp.stop();
+    tp.stop();*/
 
-    while (1){
+    /****test builder****/
+    computer* mComputer = computer::builder.setCpu("intel")
+                                          .setRam("sanxing")
+                                          .setdisplay("jdf")
+                                          .setUsbCount(7)
+                                          .setKeyBoard("cherry")
+                                          .build();
+    mComputer->show();
+    delete mComputer;
+
+/*    while (1){
         sleep(1);
-    };
+    };*/
 }
