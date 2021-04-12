@@ -5,7 +5,7 @@
   *Version:
   *Date:2021/4/12
   *Description:适配器模式
-  *Others:将一个类的接口转换为客户希望的另一个接口。Adpter模式用于那些原本接口不兼容的的类可以一起工作
+  *Others:将一个类的接口转换为客户希望的另一个接口。Adpter模式用于那些原本接口不兼容的的类可以一起工作,有三个类：
   * target是目标系统
   * adaptee是被适配系统
   * adapter是适配器

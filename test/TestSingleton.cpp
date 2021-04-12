@@ -22,6 +22,7 @@
 #include "builder.h"
 #include "prototype.h"
 #include "adapter.h"
+#include "bridge.h"
 
 #include <thread>
 #include <atomic>
@@ -100,6 +101,12 @@ int main(){
 
     auto mtarget = std::make_shared<adapter>(adpe);
     mtarget->getName();
+
+    /****test bridge****/
+    auto game = std::make_shared<concreteGame1>();
+    auto phone = new conretePhone1;
+    phone->setGame(game);
+    phone->play();
 /*    while (1){
         sleep(1);
     };*/
