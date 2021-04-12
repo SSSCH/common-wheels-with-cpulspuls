@@ -18,7 +18,7 @@
      2.…………
 **********************************************************************************/
 #include "singleton.h"
-#include "threadPoll.h"
+#include "ThreadPoll.h"
 #include "builder.h"
 #include "prototype.h"
 #include "adapter.h"
@@ -26,7 +26,7 @@
 
 #include <thread>
 #include <atomic>
-#include <zconf.h>
+
 
 /** test singleton**/
 class singletonSon : public singleton<singletonSon>{

@@ -2,9 +2,11 @@ MESSAGE(STATUS "findutil.cmake in")
 
 find_path(UTIL_INCLUDES
          Timer.h
-        ../../utils)
+         ${PROJECT_SOURCE_DIR}/utils)
 
-find_library(UTIL_LIBRARIES NAMES util PATH ${PROJECT_BINARY_DIR}/lib)
+find_library(UTIL_LIBRARIES
+             NAMES myUtils
+             HINTS ${PROJECT_BINARY_DIR}/lib)
 
 if (NOT UTIL_INCLUDES)
     message("UTIL_INCLUDES not find")

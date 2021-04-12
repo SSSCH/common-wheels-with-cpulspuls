@@ -6,11 +6,12 @@ foreach(file ${lib_list})
     message(${file})
 endforeach()]]
 
+
 set(lib_list
-        syncQueue.h
-        threadPoll.cpp
-        threadPoll.h
+        SyncQueue.h
+        ThreadPoll.cpp
+        ThreadPoll.h
         Timer.cpp
         Timer.h)
 
-add_library(util STATIC ${lib_list})
+add_library(myUtils STATIC ${lib_list})
