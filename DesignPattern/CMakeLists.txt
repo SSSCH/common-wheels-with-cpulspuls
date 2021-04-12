@@ -4,7 +4,8 @@ message(STATUS "goto designPattern")
 set(lib_list singleton.h
              builder.cpp
              builder.h
-             prototype.h)
+             prototype.h
+             adapter.h)
 
 
 

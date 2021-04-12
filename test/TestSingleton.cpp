@@ -21,6 +21,7 @@
 #include "threadPoll.h"
 #include "builder.h"
 #include "prototype.h"
+#include "adapter.h"
 
 #include <thread>
 #include <atomic>
@@ -92,6 +93,13 @@ int main(){
     auto nClone = n.clone();
     mClone->print();
     nClone->print();
+
+    /****test adapter****/
+    auto adpe = std::make_shared<adaptee>();
+    adpe->getMyName();
+
+    auto mtarget = std::make_shared<adapter>(adpe);
+    mtarget->getName();
 /*    while (1){
         sleep(1);
     };*/
