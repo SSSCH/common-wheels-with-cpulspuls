@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 message(STATUS "goto designPattern")
 set(lib_list singleton.h
              builder.cpp
-             builder.h)
+             builder.h
+             prototype.h)
 
 
 

@@ -20,6 +20,7 @@
 #include "singleton.h"
 #include "threadPoll.h"
 #include "builder.h"
+#include "prototype.h"
 
 #include <thread>
 #include <atomic>
@@ -83,6 +84,14 @@ int main(){
     mComputer->show();
     delete mComputer;
 
+
+    /*****test prototype****/
+    Diveried m;
+    prototype n;
+    auto mClone = m.clone();
+    auto nClone = n.clone();
+    mClone->print();
+    nClone->print();
 /*    while (1){
         sleep(1);
     };*/
