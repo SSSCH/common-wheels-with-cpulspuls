@@ -23,9 +23,11 @@
 #include "prototype.h"
 #include "adapter.h"
 #include "bridge.h"
+#include "Timer.h"
 
 #include <thread>
 #include <atomic>
+#include <unistd.h>
 
 
 /** test singleton**/
@@ -52,7 +54,22 @@ void runInThread(){
     }
 }
 
+void timerCallBack(int a){
+    auto timeNow = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+    std::cout << "[" << timeNow.count() <<"]hello world" << a << std::endl;
+}
+void timerCallBack1(){
+    auto timeNow = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+    std::cout << "[" << timeNow.count() <<"]hello world1" << std::endl;
+}
 
+void startTimer(TimerQueue* tq, const int j){
+    for (int i = 0; i < 5; ++i) {
+        tq->addTimer(std::bind(timerCallBack, i+j), 1, true);
+    }
+/*    sleep(3);
+    tq->stopTimer();*/
+}
 int main(){
     /** test singleton**/
     shared_ptr<singletonSon> instance =  singleton<singletonSon>::GetInstance();
@@ -107,7 +124,36 @@ int main(){
     auto phone = new conretePhone1;
     phone->setGame(game);
     phone->play();
-/*    while (1){
+
+
+    /****test timer****/
+    auto mTq = new TimerQueue();
+
+    //mTq->addTimer(timerCallBack, 1, true);
+
+
+    mTq->startTimer();
+/*    auto t = mTq->addTimer(std::bind(timerCallBack, 1), 1, true);
+    auto t1 = mTq->addTimer([] { return timerCallBack(2); }, 1, true);
+    auto t2 = mTq->addTimer(timerCallBack1, 1, true);
+    sleep(5);
+    mTq->stopTimer(t);
+    mTq->stopTimer(t1);
+    //mTq->stopTimer(t2);*/
+    std::thread t(startTimer, mTq, 0);
+    std::thread t1(startTimer, mTq, 5);
+    std::thread t2(startTimer, mTq, 10);
+    sleep(5);
+    mTq->stopTimer();
+    sleep(5);
+    std::thread t3(startTimer, mTq, 0);
+/*    std::thread t4(startTimer, mTq, 5);
+    std::thread t5(startTimer, mTq, 10);*/
+    mTq->startTimer();
+    sleep(5);
+    mTq->stopTimer();
+
+  while (1){
         sleep(1);
-    };*/
+    };
 }
