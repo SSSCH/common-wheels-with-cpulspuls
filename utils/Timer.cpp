@@ -16,6 +16,8 @@
 #include <memory.h>
 #include <error.h>
 #include <unistd.h>
+
+#include <utility>
 #include "Timer.h"
 #include "ThreadPoll.h"
 
@@ -30,22 +32,22 @@ void TimerId::setTimerId(const int &timerId) {
 
 
 
-Timer::Timer(const func &callBack, long interval, bool isRepate) : _callBack(callBack), _interval(interval), _isRepate(isRepate){
+Timer::Timer(func callBack, long interval, bool isRepate) : _callBack(std::move(callBack)), _interval(interval), _isRepate(isRepate), _timerId(0){
 
 }
 const func & Timer::getCallBack() {
     return std::move(_callBack);
 }
 
-const int Timer::getTimerId() {
+int Timer::getTimerId() {
     return _timerId;
 }
 
-const bool Timer::isRepate() {
+bool Timer::isRepate() {
     return _isRepate;
 }
 
-const long Timer::getInterval() {
+long Timer::getInterval() {
     return _interval;
 }
 
@@ -172,7 +174,7 @@ TimerQueue::~TimerQueue() {
     close(_epollFd);
 }
 
-int TimerQueue::_timerInit(const func &callBack, long interval, bool isRepate) {
+int TimerQueue::_timerInit(const func &callBack, long interval, bool isRepate) const {
     struct itimerspec ts;
     memset(&ts, 0, sizeof(ts));
 
@@ -198,7 +200,7 @@ int TimerQueue::_timerInit(const func &callBack, long interval, bool isRepate) {
     return timer_fd;
 }
 
-int TimerQueue::_epollCtl(const int timerFd, const int op) {
+int TimerQueue::_epollCtl(const int timerFd, const int op) const {
     struct epoll_event ev;
     memset(&ev, 0, sizeof(ev));
 
