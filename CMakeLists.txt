@@ -7,6 +7,8 @@ set(CMAKE_CXX_FLAGS "${CAMKE_CXX_FLAGS} -std=c++14 -pthread")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH  ${PROJECT_BINARY_DIR}/lib)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 add_subdirectory(DesignPattern designPattern)
 add_subdirectory(utils util)
 add_subdirectory(test testwheel)

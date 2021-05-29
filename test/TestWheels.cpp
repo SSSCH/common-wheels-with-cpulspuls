@@ -24,6 +24,7 @@
 #include "adapter.h"
 #include "bridge.h"
 #include "Timer.h"
+#include "templateMethod.h"
 
 #include <thread>
 #include <atomic>
@@ -152,6 +153,15 @@ int main(){
     mTq->startTimer();
     sleep(5);
     mTq->stopTimer();
+
+    /***test template method**/
+
+    sam::ball *mBall =  new sam::basketball() ;
+    sam::ball *nBall = new sam::football();
+    mBall->play();
+    nBall->play();
+    delete mBall;
+    delete nBall;
 
   while (1){
         sleep(1);
