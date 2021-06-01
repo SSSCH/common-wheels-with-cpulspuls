@@ -25,6 +25,7 @@
 #include "bridge.h"
 #include "Timer.h"
 #include "templateMethod.h"
+#include "strategy.h"
 
 #include <thread>
 #include <atomic>
