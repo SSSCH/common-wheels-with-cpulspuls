@@ -26,6 +26,7 @@
 #include "Timer.h"
 #include "templateMethod.h"
 #include "strategy.h"
+#include "obsever.h"
 
 #include <thread>
 #include <atomic>
@@ -163,6 +164,13 @@ int main(){
     nBall->play();
     delete mBall;
     delete nBall;
+
+    /*** test obsever***/
+    auto  ob = std::make_shared<rrc>();
+    auto sub = std::make_shared<os>();
+    sub->Attach(ob);
+    sub->sndMsg();
+    sub->Detach(ob);
 
   while (1){
         sleep(1);

@@ -29,7 +29,7 @@ namespace sam{
     {
     public:
         virtual double calculate(const context& ctx) = 0;
-        virtual ~TaxStrategy();
+        virtual ~TaxStrategy() = default;
     private:
     };
 
