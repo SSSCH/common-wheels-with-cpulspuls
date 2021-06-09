@@ -27,10 +27,12 @@
 #include "templateMethod.h"
 #include "strategy.h"
 #include "obsever.h"
+#include "decorator.h"
 
 #include <thread>
 #include <atomic>
 #include <unistd.h>
+#include <vector>
 
 
 /** test singleton**/
@@ -48,7 +50,8 @@ private:
     int a = 0;
 };
 
-/**test threadpoll**/
+/***test threadpoll***/
+
 ThreadPoll tp(40);
 atomic_int threadPollTestNum;
 void runInThread(){
@@ -76,13 +79,10 @@ void startTimer(TimerQueue* tq, const int j){
 int main(){
     /** test singleton**/
     shared_ptr<singletonSon> instance =  singleton<singletonSon>::GetInstance();
-    //shared_ptr<int> instance1 =  singleton<int>::GetInstance();
-    //instance->a = 777;
-    //std::cout << "i am a instance:" << *instance << "instance use count:" << instance.use_count()<< std::endl;
     instance->printa();
 
     /**test threadpoll**/
-/*    threadPollTestNum = 0;
+    threadPollTestNum = 0;
     tp.start();
     std::thread th1(runInThread);
     std::thread th2(runInThread);
@@ -94,7 +94,7 @@ int main(){
     th4.join();
     sleep(3);
     cout << "threadPollTestNum:" << threadPollTestNum << endl;
-    tp.stop();*/
+    tp.stop();
 
     /****test builder****/
     computer* mComputer = computer::builder.setCpu("intel")
@@ -129,20 +129,9 @@ int main(){
     phone->play();
 
 
-    /****test timer****/
+    /***test timer***/
     auto mTq = new TimerQueue();
-
-    //mTq->addTimer(timerCallBack, 1, true);
-
-
     mTq->startTimer();
-/*    auto t = mTq->addTimer(std::bind(timerCallBack, 1), 1, true);
-    auto t1 = mTq->addTimer([] { return timerCallBack(2); }, 1, true);
-    auto t2 = mTq->addTimer(timerCallBack1, 1, true);
-    sleep(5);
-    mTq->stopTimer(t);
-    mTq->stopTimer(t1);
-    //mTq->stopTimer(t2);*/
     std::thread t(startTimer, mTq, 0);
     std::thread t1(startTimer, mTq, 5);
     std::thread t2(startTimer, mTq, 10);
@@ -150,8 +139,6 @@ int main(){
     mTq->stopTimer();
     sleep(5);
     std::thread t3(startTimer, mTq, 0);
-/*    std::thread t4(startTimer, mTq, 5);
-    std::thread t5(startTimer, mTq, 10);*/
     mTq->startTimer();
     sleep(5);
     mTq->stopTimer();
@@ -171,6 +158,19 @@ int main(){
     sub->Attach(ob);
     sub->sndMsg();
     sub->Detach(ob);
+
+    /*** test decorator***/
+    auto s1 = std::make_shared<fileStream>();
+    auto s2 = std::make_shared<netWorkStream>();
+    std::vector<std::unique_ptr<stream>> vec;
+    vec.push_back(std::make_unique<cryptoStream>(s1));
+    vec.push_back(std::make_unique<cryptoStream>(s2));
+    vec.push_back(std::make_unique<cacheStream>(s1));
+    vec.push_back(std::make_unique<cacheStream>(s2));
+    for(const auto &stm : vec){
+        stm->write();
+        stm->read();
+    }
 
   while (1){
         sleep(1);
